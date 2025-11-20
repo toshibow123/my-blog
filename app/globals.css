@@ -22,5 +22,41 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+/* スクリーンリーダー用のクラス */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* スムーズスクロール */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 星のような背景効果のアニメーション */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-pulse {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+/* フォーカス表示の改善（Tailwindクラスで対応しているため、ここでは基本スタイルのみ） */

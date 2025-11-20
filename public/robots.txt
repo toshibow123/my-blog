@@ -1,0 +1,23 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# サイトマップの場所
+Sitemap: https://www.toshiboh.com/sitemap.xml
+
+# クロールを許可しないパス（必要に応じて追加）
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# 画像のクロールを許可
+User-agent: Googlebot-Image
+Allow: /images/
+
+# よくあるクローラーの設定
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
