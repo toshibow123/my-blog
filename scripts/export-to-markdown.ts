@@ -109,7 +109,7 @@ async function exportPostsToMarkdown() {
 
       // 画像プレースホルダー（[画像0], [画像1]など）を処理
       if (post.images && Array.isArray(post.images)) {
-        post.images.forEach((imageUrl, index) => {
+        post.images.forEach((imageUrl: string, index: number) => {
           // [画像N] の形式で既に存在する場合はそのまま、存在しない場合は追加
           const placeholder = `[画像${index}]`;
           if (!content.includes(placeholder)) {

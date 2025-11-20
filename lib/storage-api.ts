@@ -6,7 +6,7 @@
 // 2. MarkdownファイルのFront Matterに画像URLを記入
 // 3. 本文中で [画像0], [画像1] の形式で参照
 
-export async function uploadImage(): Promise<string> {
+export async function uploadImage(_file: File, _folder?: string): Promise<string> {
   throw new Error("画像アップロード機能は無効化されました。public/images/ ディレクトリに画像を配置してください。");
 }
 

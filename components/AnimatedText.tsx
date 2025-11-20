@@ -8,6 +8,7 @@ interface AnimatedTextProps {
   className?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "p" | "span";
   delay?: number;
+  style?: React.CSSProperties;
 }
 
 export default function AnimatedText({
@@ -15,6 +16,7 @@ export default function AnimatedText({
   className = "",
   as: Component = "span",
   delay = 0,
+  style,
 }: AnimatedTextProps) {
   const containerRef = useRef<HTMLElement>(null);
 
@@ -72,7 +74,7 @@ export default function AnimatedText({
   });
 
   return (
-    <Component ref={containerRef as any} className={className}>
+    <Component ref={containerRef as any} className={className} style={style}>
       {chars}
     </Component>
   );

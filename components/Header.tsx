@@ -88,13 +88,15 @@ export default function Header() {
         const stars = starsRef.current.querySelectorAll("div");
         stars.forEach((star, index) => {
           gsap.to(star, {
-            opacity: [0.3, 1, 0.3],
-            scale: [1, 1.5, 1],
+            opacity: 1,
+            scale: 1.5,
             duration: 2 + Math.random() * 2,
             repeat: -1,
+            yoyo: true,
             delay: index * 0.2,
             ease: "sine.inOut",
           });
+          gsap.set(star, { opacity: 0.3, scale: 1 });
         });
       }
     }, headerRef);

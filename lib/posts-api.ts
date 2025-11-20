@@ -14,3 +14,7 @@ export async function getPostBySlug() {
   console.warn("posts-api.ts は使用されていません。lib/posts-markdown.ts を使用してください。");
   return null;
 }
+
+export async function deletePost(id: string) {
+  throw new Error("管理者ページは無効化されています。Markdownファイルを直接編集してください。");
+}
