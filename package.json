@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "NEXT_PUBLIC_STATIC_EXPORT=true next build",
+    "generate:static": "tsx scripts/generate-static-files.ts",
+    "deploy:xserver": "npm run generate:static && npm run build:static",
     "start": "next start",
     "audit": "npm audit --audit-level=moderate",
     "audit:fix": "npm audit fix",

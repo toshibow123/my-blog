@@ -97,13 +97,13 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
               key={heading.id}
               className={`
                 ${heading.level === 3 ? "ml-4" : ""}
-                ${activeId === heading.id ? "text-yellow-400" : "text-gray-300"}
-                hover:text-yellow-400 transition-colors cursor-pointer
+                ${activeId === heading.id ? "text-slate-300" : "text-gray-300"}
+                hover:text-slate-300 transition-colors cursor-pointer
               `}
             >
               <button
                 onClick={() => scrollToHeading(heading.id)}
-                className="text-left hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+                className="text-left hover:underline focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
               >
                 {heading.text}
               </button>

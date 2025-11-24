@@ -42,11 +42,11 @@ export default function ArchiveList() {
           <li key={`${archive.year}-${archive.month}`}>
             <Link
               href={`/archive/${archive.year}/${parseInt(archive.month)}`}
-              className="text-gray-300 hover:text-yellow-400 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded flex items-center justify-between"
+              className="text-gray-300 hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded flex items-center justify-between"
               prefetch={true}
             >
               <span>{archive.year}年{parseInt(archive.month)}月</span>
-              <span className="bg-gray-700 text-yellow-400 px-2 py-0.5 rounded-full text-xs font-semibold">
+              <span className="bg-gray-700 text-slate-300 px-2 py-0.5 rounded-full text-xs font-semibold">
                 {archive.count}件
               </span>
             </Link>
@@ -56,7 +56,7 @@ export default function ArchiveList() {
       {Object.keys(archiveMap).length > 5 && (
         <Link
           href="/archive"
-          className="text-yellow-400 hover:text-yellow-300 text-sm font-semibold mt-2 inline-block transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+          className="text-slate-300 hover:text-slate-200 text-sm font-semibold mt-2 inline-block transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
           prefetch={true}
         >
           アーカイブ一覧へ →

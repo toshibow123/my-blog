@@ -145,9 +145,9 @@ export function getAdjacentPosts(slug: string): {
 
 // 読了時間を計算（分）
 export function getReadingTime(content: string): number {
-  const wordsPerMinute = 200; // 日本語は1分200文字程度
+  const charsPerMinute = 500; // 日本語は1分500文字程度
   const textLength = content.replace(/\s/g, "").length;
-  return Math.ceil(textLength / wordsPerMinute);
+  return Math.ceil(textLength / charsPerMinute);
 }
 
 // 全タグを取得（重複なし）

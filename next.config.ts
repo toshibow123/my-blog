@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // セキュリティヘッダーの設定
+  // 静的エクスポートの設定（Xサーバー用）
+  output: process.env.NEXT_PUBLIC_STATIC_EXPORT === "true" ? "export" : undefined,
+  // セキュリティヘッダーの設定（静的エクスポート時は無効）
   async headers() {
+    // 静的エクスポート時はヘッダー設定をスキップ
+    if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "true") {
+      return [];
+    }
     return [
       {
         source: "/:path*",

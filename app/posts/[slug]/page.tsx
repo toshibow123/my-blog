@@ -7,6 +7,10 @@ import AnimatedCard from "@/components/AnimatedCard";
 import HoverCard from "@/components/HoverCard";
 import ShareButtons from "@/components/ShareButtons";
 import TableOfContents from "@/components/TableOfContents";
+import ReadingProgress from "@/components/ReadingProgress";
+import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
+import LikeButton from "@/components/LikeButton";
+import Giscus from "@/components/Giscus";
 
 export async function generateMetadata({
   params,
@@ -90,11 +94,11 @@ export default async function PostPage({
           ]}
         />
         
-        <div className="bg-gray-800 rounded-lg shadow-md p-8 border border-gray-700">
+        <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-2xl p-8 md:p-10 border border-gray-700/50 backdrop-blur-sm">
         {/* ヘッダー */}
         <header className="mb-6">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-4 py-2 rounded-full text-sm font-semibold shadow-md">
+            <span className="bg-slate-700 text-slate-200 px-5 py-2 rounded-full text-sm font-semibold border border-slate-600">
               {post.category}
             </span>
             <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
@@ -109,7 +113,7 @@ export default async function PostPage({
               <span>読了時間: 約{readingTime}分</span>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4" itemProp="headline">
+          <h1 className="text-3xl md:text-4xl font-title text-white mb-4" itemProp="headline">
             {post.title}
           </h1>
           
@@ -152,11 +156,15 @@ export default async function PostPage({
           </div>
         )}
 
-        {/* 目次 */}
-        <TableOfContents content={post.content} />
+        <div className="flex flex-col lg:flex-row gap-8 relative">
+          <div className="flex-1 min-w-0">
+            {/* 目次（モバイルのみ） */}
+            <div className="lg:hidden mb-8">
+              <TableOfContents content={post.content} />
+            </div>
 
-        {/* コンテンツ */}
-        <div className="prose prose-lg max-w-none prose-invert" itemProp="articleBody">
+            {/* コンテンツ */}
+            <div className="prose prose-lg max-w-none prose-invert" itemProp="articleBody">
           <div className="text-gray-300 leading-relaxed">
             {(() => {
               // 文中画像の配列を取得
@@ -408,7 +416,7 @@ export default async function PostPage({
                         if (codeMatch.index > codeLastIndex) {
                           finalParts.push(part.substring(codeLastIndex, codeMatch.index));
                         }
-                        finalParts.push(<code key={`code-${lineIndex}-${partIndex}-${codeMatch.index}`} className="bg-gray-900 px-2 py-1 rounded text-yellow-400 font-mono text-sm">{codeMatch[1]}</code>);
+                        finalParts.push(<code key={`code-${lineIndex}-${partIndex}-${codeMatch.index}`} className="bg-gray-900 px-2 py-1 rounded text-slate-300 font-mono text-sm">{codeMatch[1]}</code>);
                         codeLastIndex = codeMatch.index + codeMatch[0].length;
                       }
                       if (codeLastIndex < part.length) {
@@ -441,6 +449,20 @@ export default async function PostPage({
               return elements;
             })()}
           </div>
+        </div>
+      </div>
+      
+      {/* サイドバー（目次・PCのみ） */}
+      <aside className="hidden lg:block w-72 flex-shrink-0">
+        <div className="sticky top-24">
+          <TableOfContents content={post.content} />
+        </div>
+      </aside>
+    </div>
+
+        {/* いいねボタン */}
+        <div className="mt-8 pt-8 border-t border-gray-700">
+          <LikeButton slug={post.slug} title={post.title} />
         </div>
 
         {/* SNSシェアボタン */}
@@ -477,26 +499,26 @@ export default async function PostPage({
         {/* 関連記事 */}
         {relatedPosts.length > 0 && (
           <div className="mt-8 pt-8 border-t border-gray-700">
-            <h3 className="text-2xl font-bold mb-6 text-white">関連記事</h3>
+            <h3 className="text-2xl font-title mb-6 text-white">関連記事</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost, index) => (
                 <AnimatedCard key={relatedPost.slug} delay={index * 0.1}>
-                  <HoverCard className="bg-gray-700 rounded-lg shadow-md overflow-hidden h-full border border-gray-600">
+                  <HoverCard className="bg-gradient-to-br from-gray-700/90 to-gray-800/90 rounded-xl shadow-xl overflow-hidden h-full border border-gray-600/50 backdrop-blur-sm hover:border-yellow-400/30 transition-all duration-300">
                     <Link
                       href={`/posts/${relatedPost.slug}`}
                       className="block p-4 h-full"
                       prefetch={true}
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 text-gray-900 px-2.5 py-1 rounded-full text-xs font-bold shadow-lg shadow-yellow-500/30">
                           {relatedPost.category}
                         </span>
-                        <span className="text-gray-400 text-xs">{relatedPost.date}</span>
+                        <span className="text-gray-400 text-xs font-medium">{relatedPost.date}</span>
                       </div>
-                      <h4 className="font-semibold text-white mb-2 line-clamp-2">
+                      <h4 className="font-title text-white mb-2 line-clamp-2 leading-tight">
                         {relatedPost.title}
                       </h4>
-                      <p className="text-gray-300 text-sm line-clamp-2">{relatedPost.excerpt}</p>
+                      <p className="text-gray-300 text-sm line-clamp-2 leading-relaxed">{relatedPost.excerpt}</p>
                     </Link>
                   </HoverCard>
                 </AnimatedCard>
@@ -505,11 +527,17 @@ export default async function PostPage({
           </div>
         )}
 
+        {/* コメント機能（Giscus） */}
+        <div className="mt-12 pt-8 border-t border-gray-700">
+          <h3 className="text-2xl font-title mb-6 text-white">コメント</h3>
+          <Giscus />
+        </div>
+
         {/* フッター */}
         <footer className="mt-8 pt-6 border-t border-gray-700">
           <Link
             href="/"
-            className="text-yellow-400 hover:text-yellow-300 font-semibold inline-flex items-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+            className="text-slate-300 hover:text-slate-200 font-semibold inline-flex items-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
             prefetch={true}
             aria-label="ホームページに戻る"
           >

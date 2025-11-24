@@ -7,6 +7,7 @@ import AnimatedText from "@/components/AnimatedText";
 import { getPublishedPosts } from "@/lib/posts-markdown";
 import PopularTags from "@/components/PopularTags";
 import ArchiveList from "@/components/ArchiveList";
+import PopularPosts from "@/components/PopularPosts";
 import ProfileCard from "@/components/ProfileCard";
 
 export default function Home() {
@@ -30,38 +31,39 @@ export default function Home() {
               <AnimatedText
                 text="注目記事"
                 as="h2"
-                className="text-2xl font-bold mb-4 text-white"
+                className="text-2xl font-title mb-4 text-white"
               />
-              <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
+              <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
                 {featuredPosts.length > 0 ? (
                   featuredPosts.map((post, index) => (
                     <AnimatedCard key={post.slug} delay={index * 0.1}>
                       <Card3D>
-                        <HoverCard className="p-6 border-b border-gray-700 last:border-b-0">
+                        <HoverCard className="p-6 border-b border-gray-700/30 last:border-b-0 hover:bg-gray-700/20 transition-colors">
                           <article>
-                            <div className="flex items-start justify-between mb-2">
-                              <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+                            <div className="flex items-start justify-between mb-3">
+                              <span className="bg-slate-700 text-slate-200 px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-600">
                                 {post.category}
                               </span>
-                              <span className="text-gray-400 text-sm">{post.date}</span>
+                              <span className="text-gray-400 text-xs font-medium">{post.date}</span>
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-white">
+                            <h3 className="text-xl font-title mb-3 text-white leading-tight">
                               <Link
                                 href={`/posts/${post.slug}`}
-                                className="hover:text-yellow-400 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+                                className="hover:text-slate-300 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
                                 prefetch={true}
                               >
                                 {post.title}
                               </Link>
                             </h3>
-                            <p className="text-gray-300 mb-4 line-clamp-2">{post.excerpt}</p>
+                            <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">{post.excerpt}</p>
                             <Link
                               href={`/posts/${post.slug}`}
-                              className="text-yellow-400 hover:text-yellow-300 font-semibold inline-flex items-center gap-1 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+                              className="group text-slate-300 hover:text-slate-200 font-semibold inline-flex items-center gap-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded px-3 py-1.5 hover:bg-slate-700/50 rounded-lg"
                               prefetch={true}
                               aria-label={`${post.title}の続きを読む`}
                             >
-                              続きを読む →
+                              続きを読む
+                              <span className="group-hover:translate-x-1 transition-transform">→</span>
                             </Link>
                           </article>
                         </HoverCard>
@@ -84,34 +86,34 @@ export default function Home() {
                 <AnimatedText
                   text="新着記事"
                   as="h2"
-                  className="text-2xl font-bold text-white"
+                  className="text-2xl font-title text-white"
                   delay={0.2}
                 />
                 <Link
                   href="/posts"
-                  className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-gray-900 px-4 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-yellow-500/50 inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                  className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                   prefetch={true}
                 >
                   すべての記事を見る →
                 </Link>
               </div>
-              <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
+              <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
                 {recentPosts.length > 0 ? (
                   recentPosts.map((post, index) => (
                     <AnimatedCard key={post.slug} delay={index * 0.1}>
                       <Card3D>
-                        <HoverCard className="p-6 border-b border-gray-700 last:border-b-0">
+                        <HoverCard className="p-5 border-b border-gray-700/30 last:border-b-0 hover:bg-gray-700/20 transition-colors">
                           <article>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="bg-gray-700/80 text-gray-200 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
                                 {post.category}
                               </span>
-                              <span className="text-gray-400 text-sm">{post.date}</span>
+                              <span className="text-gray-400 text-xs font-medium">{post.date}</span>
                             </div>
-                            <h3 className="text-lg font-semibold text-white">
+                            <h3 className="text-lg font-title text-white leading-tight">
                               <Link
                                 href={`/posts/${post.slug}`}
-                                className="hover:text-yellow-400 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+                                className="hover:text-slate-300 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
                                 prefetch={true}
                               >
                                 {post.title}
@@ -141,6 +143,7 @@ export default function Home() {
           <Sidebar 
             popularTags={<PopularTags />} 
             archiveList={<ArchiveList />}
+            popularPosts={<PopularPosts />}
           />
         </aside>
       </div>

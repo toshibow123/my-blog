@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import NewsletterForm from "@/components/NewsletterForm";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,9 +23,10 @@ const categories = [
 interface SidebarProps {
   popularTags?: ReactNode;
   archiveList?: ReactNode;
+  popularPosts?: ReactNode;
 }
 
-export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
+export default function Sidebar({ popularTags, archiveList, popularPosts }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -61,8 +63,8 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
   return (
     <aside ref={sidebarRef} className="w-full md:w-80 space-y-6">
       {/* 検索バー */}
-      <div className="bg-gray-800 rounded-lg shadow-md p-4 overflow-hidden border border-gray-700">
-        <h2 className="bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-900 text-white px-4 py-2 rounded-t-lg font-semibold mb-3 shadow-lg">
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl p-4 overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 rounded-t-lg font-title text-sm mb-3 shadow-lg">
           検索
         </h2>
         <form 
@@ -80,12 +82,12 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
             type="search"
             name="q"
             placeholder="キーワードを入力"
-            className="flex-1 min-w-0 border border-gray-600 bg-gray-700 text-white rounded px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            className="flex-1 min-w-0 border border-gray-600 bg-gray-700 text-white rounded px-3 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-slate-400"
             aria-label="検索キーワードを入力"
           />
           <button
             type="submit"
-            className="flex-shrink-0 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-gray-900 px-4 py-2 rounded font-semibold transition-all shadow-md hover:shadow-yellow-500/50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-gray-800 whitespace-nowrap"
+            className="flex-shrink-0 bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded font-semibold transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-gray-800 whitespace-nowrap"
             aria-label="検索を実行"
           >
             検索
@@ -94,8 +96,8 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
       </div>
 
       {/* カテゴリー */}
-      <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
-        <h2 className="bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-900 text-white px-4 py-2 font-semibold shadow-lg">
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 font-title text-sm shadow-lg">
           カテゴリー
         </h2>
         <div className="p-4">
@@ -104,7 +106,7 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
               <Link
                 key={category.slug}
                 href={`/category/${category.slug}`}
-                className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white hover:text-yellow-400"
+                className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 text-white hover:text-slate-300"
                 prefetch={true}
                 aria-label={`${category.name}カテゴリーの記事一覧`}
               >
@@ -118,9 +120,21 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
         </div>
       </div>
 
+      {/* 人気記事 */}
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 font-title text-sm shadow-lg">
+          人気記事
+        </h2>
+        {popularPosts || (
+          <div className="p-4">
+            <p className="text-gray-400 text-sm">記事を読み込み中...</p>
+          </div>
+        )}
+      </div>
+
       {/* 人気タグ */}
-      <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
-        <h2 className="bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-900 text-white px-4 py-2 font-semibold shadow-lg">
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 font-title text-sm shadow-lg">
           人気タグ
         </h2>
         {popularTags || (
@@ -131,8 +145,8 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
       </div>
 
       {/* アーカイブ */}
-      <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
-        <h2 className="bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-900 text-white px-4 py-2 font-semibold shadow-lg">
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 font-title text-sm shadow-lg">
           アーカイブ
         </h2>
         {archiveList || (
@@ -140,6 +154,19 @@ export default function Sidebar({ popularTags, archiveList }: SidebarProps) {
             <p className="text-gray-400 text-sm">アーカイブを読み込み中...</p>
           </div>
         )}
+      </div>
+
+      {/* メールマガジン登録 */}
+      <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700/50 backdrop-blur-sm">
+        <h2 className="bg-gradient-to-r from-blue-800 via-blue-900 to-slate-900 text-white px-4 py-2.5 font-title text-sm shadow-lg">
+          メールマガジン
+        </h2>
+        <div className="p-4">
+          <p className="text-gray-300 text-sm mb-4">
+            新着記事やおすすめコンテンツをお届けします。
+          </p>
+          <NewsletterForm />
+        </div>
       </div>
     </aside>
   );

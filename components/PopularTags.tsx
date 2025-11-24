@@ -21,18 +21,18 @@ export default function PopularTags() {
           <Link
             key={tag.slug}
             href={`/tag/${tag.slug}`}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-full text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="bg-gradient-to-r from-gray-700/80 to-gray-700/60 hover:from-gray-600 hover:to-gray-600/80 text-white px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 backdrop-blur-sm hover:scale-105 hover:shadow-md"
             prefetch={true}
             title={`${tag.name}タグの記事（${tag.count}件）`}
           >
-            {tag.name} <span className="text-gray-400">({tag.count})</span>
+            {tag.name} <span className="text-gray-300 font-semibold">({tag.count})</span>
           </Link>
         ))}
       </div>
       {allTags.length > 8 && (
         <Link
           href="/tags"
-          className="text-yellow-400 hover:text-yellow-300 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded inline-block mt-2"
+          className="text-slate-300 hover:text-slate-200 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded inline-block mt-2"
           prefetch={true}
         >
           タグ一覧へ →

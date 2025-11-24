@@ -107,23 +107,23 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="relative bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white overflow-hidden"
+      className="relative bg-gradient-to-r from-blue-900 via-slate-900 to-blue-950 text-white overflow-hidden"
       role="banner"
     >
-      {/* 星のような背景効果 */}
-      <div ref={starsRef} className="absolute inset-0 opacity-30">
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-10 left-10"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full top-20 left-32"></div>
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-32 left-64"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full top-16 left-96"></div>
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-24 right-32"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full top-40 right-64"></div>
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-12 right-96"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full top-28 right-20"></div>
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full top-48 left-48"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full top-36 right-48"></div>
-        <div className="absolute w-1 h-1 bg-yellow-300 rounded-full bottom-20 left-24"></div>
-        <div className="absolute w-1 h-1 bg-yellow-200 rounded-full bottom-32 right-24"></div>
+      {/* 控えめな背景装飾 */}
+      <div ref={starsRef} className="absolute inset-0 opacity-10">
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-10 left-10"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-20 left-32"></div>
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-32 left-64"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-16 left-96"></div>
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-24 right-32"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-40 right-64"></div>
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-12 right-96"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-28 right-20"></div>
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-48 left-48"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-36 right-48"></div>
+        <div className="absolute w-1 h-1 bg-slate-400 rounded-full bottom-20 left-24"></div>
+        <div className="absolute w-1 h-1 bg-slate-300 rounded-full bottom-32 right-24"></div>
       </div>
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex flex-col items-center text-center space-y-4">
@@ -136,15 +136,10 @@ export default function Header() {
               <AnimatedText
                 text="トシぼうのブログ"
                 as="h1"
-                className="text-4xl md:text-6xl font-black relative z-10 cursor-pointer"
+                className="text-4xl md:text-6xl font-title relative z-10 cursor-pointer"
                 style={{
-                  background: "linear-gradient(90deg, #fbbf24, #f59e0b, #eab308, #fbbf24)",
-                  backgroundSize: "200% 100%",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  textShadow: "0 0 30px rgba(251, 191, 36, 0.5), 0 0 60px rgba(251, 191, 36, 0.3)",
-                  filter: "drop-shadow(0 0 10px rgba(251, 191, 36, 0.5))",
+                  color: "#e2e8f0", // slate-200
+                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
                 }}
               />
               {/* 光るエフェクト */}
@@ -158,8 +153,9 @@ export default function Header() {
               />
             </Link>
           </div>
-          <p ref={descRef} className="text-lg md:text-xl opacity-90">
-            節約しながらもマッチョをあきらめず、AIや資産形成も大好き。
+          <p ref={descRef} className="text-lg md:text-xl opacity-90 max-w-3xl mx-auto px-4 leading-relaxed">
+            このブログは、移住をしたアラフォーで見習いエンジニアの成長日記です。<br className="hidden md:block" />
+            たまにAI副業・筋トレのことなど書きます。
           </p>
           <nav
             ref={navRef}
@@ -168,14 +164,14 @@ export default function Header() {
           >
             <Link
               href="/"
-              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all shadow-lg hover:shadow-yellow-500/50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-indigo-900"
+              className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-blue-900"
               prefetch={true}
             >
               記事一覧
             </Link>
             <Link
               href="/about"
-              className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all shadow-lg hover:shadow-yellow-400/50 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 focus:ring-offset-purple-900"
+              className="bg-slate-600 hover:bg-slate-500 text-white px-6 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-blue-900"
               prefetch={true}
             >
               プロフィール

@@ -1,28 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f172a; /* slate-900 */
+  --foreground: #f8fafc; /* slate-50 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-noto-sans-jp), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-noto-serif-jp), "Yu Mincho", serif;
+  --font-title: var(--font-noto-serif-jp);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ダークモード（常時有効） */
+html.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
 }
+
+html.dark body {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.8; /* 行間を広げて読みやすく */
+  letter-spacing: 0.03em; /* 文字間隔を少し広げる */
 }
 
 /* スクリーンリーダー用のクラス */
@@ -43,20 +52,57 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 星のような背景効果のアニメーション */
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
+/* タイトル用フォント（明朝体） */
+.font-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* おしゃれなシャンパンゴールドのグラデーション */
+.gradient-text {
+  background: linear-gradient(135deg, #fde68a 0%, #d4af37 50%, #b45309 100%); /* champagne gold -> deep gold */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* モダンで洗練されたカードスタイル */
+.modern-card {
+  background: rgba(30, 41, 59, 0.4); /* slate-800 with transparency */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.1); /* slate-400 very light */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-card:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(212, 175, 55, 0.3); /* gold border on hover */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-4px);
+}
+
+/* グラスモーフィズム効果（控えめ） */
+.glass-effect {
+  background: rgba(15, 23, 42, 0.7); /* slate-900 */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* スムーズなアニメーション */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  50% {
+  to {
     opacity: 1;
-    transform: scale(1.2);
+    transform: translateY(0);
   }
 }
 
-.animate-pulse {
-  animation: twinkle 3s ease-in-out infinite;
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* より優雅な動き */
 }
-
-/* フォーカス表示の改善（Tailwindクラスで対応しているため、ここでは基本スタイルのみ） */
