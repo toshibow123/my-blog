@@ -63,13 +63,20 @@ export default async function PostPage({
     author: {
       "@type": "Person",
       name: "トシぼう",
+      url: "https://www.toshiboh.com/about",
     },
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated || post.date,
     publisher: {
-      "@type": "Person",
-      name: "トシぼう",
+      "@type": "Organization",
+      name: "トシぼうのブログ",
+      url: "https://www.toshiboh.com",
     },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.toshiboh.com/posts/${post.slug}`,
+    },
+    image: post.hero_image ? `https://www.toshiboh.com${post.hero_image.startsWith("/") ? post.hero_image : `/images/${post.hero_image}`}` : undefined,
   };
 
   // JSON-LDのサニタイゼーション（XSS対策）

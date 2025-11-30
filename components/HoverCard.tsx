@@ -14,10 +14,9 @@ export default function HoverCard({ children, className = "" }: HoverCardProps) 
   const handleMouseEnter = () => {
     if (cardRef.current) {
       gsap.to(cardRef.current, {
-        y: -5,
-        scale: 1.02,
-        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-        duration: 0.3,
+        y: -6,
+        scale: 1.015,
+        duration: 0.4,
         ease: "power2.out",
       });
     }
@@ -28,8 +27,7 @@ export default function HoverCard({ children, className = "" }: HoverCardProps) 
       gsap.to(cardRef.current, {
         y: 0,
         scale: 1,
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        duration: 0.3,
+        duration: 0.4,
         ease: "power2.out",
       });
     }

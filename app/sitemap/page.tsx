@@ -11,6 +11,7 @@ const pages = [
   { name: "お問い合わせ", path: "/contact" },
   { name: "プライバシーポリシー", path: "/privacy" },
   { name: "利用規約", path: "/terms" },
+  { name: "免責事項", path: "/disclaimer" },
 ];
 
 const categories = [
@@ -26,18 +27,19 @@ const categories = [
 export default function SitemapPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">サイトマップ</h1>
+      <h1 className="text-3xl font-title mb-6 text-white">サイトマップ</h1>
       
-      <div className="bg-white rounded-lg shadow-md p-8 space-y-8">
+      <div className="bg-gray-800 rounded-lg shadow-md p-8 space-y-8 border border-gray-700">
         {/* 主要ページ */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">主要ページ</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-white">主要ページ</h2>
           <ul className="space-y-2">
             {pages.map((page) => (
               <li key={page.path}>
                 <Link
                   href={page.path}
-                  className="text-yellow-600 hover:text-yellow-700 underline"
+                  className="text-slate-300 hover:text-slate-200 underline"
+                  prefetch={true}
                 >
                   {page.name}
                 </Link>
@@ -48,13 +50,14 @@ export default function SitemapPage() {
 
         {/* カテゴリー */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">カテゴリー</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-white">カテゴリー</h2>
           <ul className="space-y-2">
             {categories.map((category) => (
               <li key={category.path}>
                 <Link
                   href={category.path}
-                  className="text-yellow-600 hover:text-yellow-700 underline"
+                  className="text-slate-300 hover:text-slate-200 underline"
+                  prefetch={true}
                 >
                   {category.name}
                 </Link>
@@ -65,12 +68,13 @@ export default function SitemapPage() {
 
         {/* アーカイブ */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">アーカイブ</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-white">アーカイブ</h2>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/archive/2025/10"
-                className="text-pink-600 hover:text-pink-700 underline"
+                className="text-slate-300 hover:text-slate-200 underline"
+                prefetch={true}
               >
                 2025年10月
               </Link>
@@ -78,7 +82,8 @@ export default function SitemapPage() {
             <li>
               <Link
                 href="/archive/2025/08"
-                className="text-pink-600 hover:text-pink-700 underline"
+                className="text-slate-300 hover:text-slate-200 underline"
+                prefetch={true}
               >
                 2025年8月
               </Link>

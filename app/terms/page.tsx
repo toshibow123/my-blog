@@ -6,30 +6,30 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">利用規約</h1>
+      <h1 className="text-3xl font-title mb-6 text-white">利用規約</h1>
       
-      <div className="bg-white rounded-lg shadow-md p-8 space-y-6">
+      <div className="bg-gray-800 rounded-lg shadow-md p-8 space-y-6 border border-gray-700">
         <section>
-          <p className="text-gray-600 text-sm mb-4">
+          <p className="text-gray-400 text-sm mb-4">
             最終更新日：2025年10月16日
           </p>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-300 leading-relaxed">
             本規約は、トシぼうのブログ（以下「当サイト」）の利用条件を定めるものです。
             当サイトを利用される方は、本規約に同意したものとみなされます。
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">1. 適用範囲</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-4 text-white">1. 適用範囲</h2>
+          <p className="text-gray-300 leading-relaxed">
             本規約は、当サイトのすべての利用者に適用されます。
             当サイトを利用することにより、利用者は本規約に同意したものとみなされます。
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">2. コンテンツの利用</h2>
-          <div className="text-gray-700 space-y-3">
+          <h2 className="text-2xl font-semibold mb-4 text-white">2. コンテンツの利用</h2>
+          <div className="text-gray-300 space-y-3">
             <p>当サイトに掲載されているコンテンツ（記事、画像、その他の情報）について：</p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>著作権は当サイト運営者に帰属します</li>
@@ -41,8 +41,8 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">3. 禁止行為</h2>
-          <div className="text-gray-700 space-y-3">
+          <h2 className="text-2xl font-semibold mb-4 text-white">3. 禁止行為</h2>
+          <div className="text-gray-300 space-y-3">
             <p>以下の行為を禁止します：</p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>当サイトのコンテンツを無断で転載・複製すること</li>
@@ -56,8 +56,8 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">4. 免責事項</h2>
-          <div className="text-gray-700 space-y-3">
+          <h2 className="text-2xl font-semibold mb-4 text-white">4. 免責事項</h2>
+          <div className="text-gray-300 space-y-3">
             <p>
               当サイトのコンテンツは、情報提供を目的としており、その正確性、完全性、有用性を保証するものではありません。
             </p>
@@ -71,34 +71,34 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">5. リンクについて</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-4 text-white">5. リンクについて</h2>
+          <p className="text-gray-300 leading-relaxed">
             当サイトから他のサイトへのリンク、または他のサイトから当サイトへのリンクについて、
             当サイト運営者はその内容について責任を負いません。
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">6. 広告について</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-4 text-white">6. 広告について</h2>
+          <p className="text-gray-300 leading-relaxed">
             当サイトでは、第三者配信の広告サービスを利用しています。
             広告の内容やリンク先については、当サイト運営者は責任を負いません。
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">7. 規約の変更</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-4 text-white">7. 規約の変更</h2>
+          <p className="text-gray-300 leading-relaxed">
             当サイトは、必要に応じて本規約を変更することがあります。
             変更後の規約は、当サイトに掲載した時点で効力を生じるものとします。
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">8. お問い合わせ</h2>
-          <p className="text-gray-700 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-4 text-white">8. お問い合わせ</h2>
+          <p className="text-gray-300 leading-relaxed">
             本規約に関するお問い合わせは、
-            <a href="/contact" className="text-yellow-600 hover:text-yellow-700 underline">
+            <a href="/contact" className="text-slate-300 hover:text-slate-200 underline">
               お問い合わせページ
             </a>
             よりご連絡ください。

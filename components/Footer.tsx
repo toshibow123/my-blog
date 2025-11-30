@@ -97,6 +97,15 @@ export default function Footer() {
                   サイトマップ
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/disclaimer"
+                  className="text-gray-400 hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
+                  prefetch={true}
+                >
+                  免責事項
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
