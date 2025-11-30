@@ -141,3 +141,49 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.4);
 }
+
+/* コードブロック装飾（Macウィンドウ風） */
+pre {
+  position: relative;
+  padding-top: 40px !important; /* ヘッダー分の余白 */
+  background: #1e1e1e !important; /* エディタ風背景色 */
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+pre::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56; /* 赤ボタン */
+  box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f; /* 黄・緑ボタン */
+}
+
+/* 記事タイトルのウェイト強化 */
+.prose h1, .prose h2, .prose h3 {
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.prose h1 {
+  font-size: 2.25rem !important; /* 36px */
+}
+
+.prose h2 {
+  font-size: 1.875rem !important; /* 30px */
+  margin-top: 3em !important;
+}
+
+/* 画像フィルター（トーン統一） */
+.prose img {
+  filter: brightness(0.9) contrast(1.1);
+  transition: filter 0.3s ease;
+}
+
+.prose img:hover {
+  filter: brightness(1) contrast(1);
+}
