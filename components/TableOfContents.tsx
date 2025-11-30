@@ -88,22 +88,22 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-      <h2 className="text-lg font-bold text-white mb-4">目次</h2>
+    <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+      <h2 className="text-base font-bold text-white mb-3">目次</h2>
       <nav>
-        <ol className="space-y-2">
+        <ol className="space-y-1.5">
           {headings.map((heading) => (
             <li
               key={heading.id}
               className={`
-                ${heading.level === 3 ? "ml-4" : ""}
+                ${heading.level === 3 ? "ml-3" : ""}
                 ${activeId === heading.id ? "text-slate-300" : "text-gray-300"}
                 hover:text-slate-300 transition-colors cursor-pointer
               `}
             >
               <button
                 onClick={() => scrollToHeading(heading.id)}
-                className="text-left hover:underline focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
+                className="text-left text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
               >
                 {heading.text}
               </button>

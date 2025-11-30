@@ -10,7 +10,6 @@ import TableOfContents from "@/components/TableOfContents";
 import ReadingProgress from "@/components/ReadingProgress";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 import LikeButton from "@/components/LikeButton";
-import Giscus from "@/components/Giscus";
 
 export async function generateMetadata({
   params,
@@ -91,6 +90,9 @@ export default async function PostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: sanitizedJsonLd }}
       />
+      {/* クライアントサイドでのコードブロック拡張機能（コピーボタン、ハイライト）を有効化 */}
+      <CodeBlockEnhancer />
+      
       <article className="container mx-auto px-4 py-8 max-w-4xl" itemScope itemType="https://schema.org/BlogPosting">
         {/* パンくずリスト */}
         <Breadcrumb
@@ -101,42 +103,40 @@ export default async function PostPage({
           ]}
         />
         
-        <div className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-2xl shadow-2xl p-8 md:p-10 border border-gray-700/50 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-gray-900 via-gray-900 to-black rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-800/50 backdrop-blur-sm">
         {/* ヘッダー */}
-        <header className="mb-6">
-          <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-            <span className="bg-slate-700 text-slate-200 px-5 py-2 rounded-full text-sm font-semibold border border-slate-600">
+        <header className="mb-10 border-b border-gray-800 pb-8">
+          <div className="flex items-center gap-3 mb-6 flex-wrap">
+            <span className="bg-blue-900/30 text-blue-200 px-4 py-1.5 rounded-full text-xs font-bold border border-blue-800/50 uppercase tracking-wider">
               {post.category}
             </span>
-            <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
-              <time dateTime={post.date} itemProp="datePublished">
-                公開: {post.date}
+            <div className="flex items-center gap-4 text-sm text-gray-400 font-mono">
+              <time dateTime={post.date} itemProp="datePublished" className="flex items-center gap-1">
+                📅 {post.date}
               </time>
-              {"updated" in post && post.updated && (
-                <time dateTime={post.updated} itemProp="dateModified">
-                  更新: {post.updated}
-                </time>
-              )}
-              <span>読了時間: 約{readingTime}分</span>
+              {/* 推定読了時間 */}
+              <span className="flex items-center gap-1 text-gray-300 bg-gray-800 px-2 py-0.5 rounded">
+                ⏱️ 読了時間: 約{readingTime}分
+              </span>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-title text-white mb-4" itemProp="headline">
+          
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight" itemProp="headline">
             {post.title}
           </h1>
           
           {/* 先頭画像（見出し画像） */}
           {"hero_image" in post && post.hero_image && (() => {
-            // ショートカット: /images/ で始まらず、http(s):// でもない場合は自動的に /images/ を付ける
             let heroImageUrl = post.hero_image;
             if (!heroImageUrl.startsWith("http://") && !heroImageUrl.startsWith("https://") && !heroImageUrl.startsWith("/")) {
               heroImageUrl = `/images/${heroImageUrl}`;
             }
             return (
-              <div className="mb-6">
+              <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
                 <img
                   src={heroImageUrl}
                   alt={post.title}
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
                   itemProp="image"
                 />
               </div>
@@ -146,24 +146,24 @@ export default async function PostPage({
 
         {/* タグ */}
         {post.tags && post.tags.length > 0 && (
-          <div className="mb-6 flex flex-wrap gap-2">
+          <div className="mb-8 flex flex-wrap gap-2">
             {post.tags.map((tag) => {
               const tagSlug = tag.toLowerCase();
               return (
                 <Link
                   key={tag}
                   href={`/tag/${tagSlug}`}
-                  className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-full text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1 rounded-lg text-xs font-medium transition-colors border border-gray-700 hover:border-gray-600"
                   prefetch={true}
                 >
-                  {tag}
+                  #{tag}
                 </Link>
               );
             })}
           </div>
         )}
 
-        <div className="flex flex-col lg:flex-row gap-8 relative">
+        <div className="flex flex-col lg:flex-row gap-12 relative">
           <div className="flex-1 min-w-0">
             {/* 目次（モバイルのみ） */}
             <div className="lg:hidden mb-8">
@@ -171,7 +171,7 @@ export default async function PostPage({
             </div>
 
             {/* コンテンツ */}
-            <div className="prose prose-lg max-w-none prose-invert" itemProp="articleBody">
+            <div className="prose prose-lg prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-300 prose-p:leading-8 prose-a:text-blue-400 prose-img:rounded-xl prose-pre:bg-[#1d1f21]" itemProp="articleBody">
           <div className="text-gray-300 leading-relaxed">
             {(() => {
               // 文中画像の配列を取得
@@ -206,9 +206,12 @@ export default async function PostPage({
                   if (inCodeBlock) {
                     // コードブロック終了
                     const codeContent = codeBlockContent.join("\n");
+                    // Prism.js用のクラスを付与 (language-xxx)
+                    const langClass = codeBlockLanguage ? `language-${codeBlockLanguage}` : "language-text";
+                    
                     elements.push(
-                      <pre key={`code-${lineIndex}`} className="bg-gray-900 p-4 rounded-lg overflow-x-auto my-4 border border-gray-700">
-                        <code className="text-gray-300">{codeContent}</code>
+                      <pre key={`code-${lineIndex}`} className={`p-4 rounded-lg overflow-x-auto my-6 border border-gray-700 shadow-lg bg-[#1d1f21] ${langClass}`}>
+                        <code className={`text-sm font-mono ${langClass}`}>{codeContent}</code>
                       </pre>
                     );
                     codeBlockContent = [];
@@ -233,38 +236,36 @@ export default async function PostPage({
                   const alt = markdownImageMatch[1] || "画像";
                   let url = markdownImageMatch[2];
                   
-                  // ショートカット: /images/ で始まらず、http(s):// でもない場合は自動的に /images/ を付ける
                   if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("/")) {
                     url = `/images/${url}`;
                   } else if (!url.startsWith("http://") && !url.startsWith("https://") && url.startsWith("/") && !url.startsWith("/images/")) {
-                    // / で始まるが /images/ で始まらない場合も /images/ を付ける（念のため）
-                    // ただし、既に /images/ で始まる場合はそのまま
                   }
                   
                   elements.push(
-                    <div key={lineIndex} className="my-6">
+                    <div key={lineIndex} className="my-8">
                       <img
                         src={url}
                         alt={alt}
-                        className="w-full h-auto rounded-lg shadow-lg border border-gray-700"
+                        className="w-full h-auto rounded-xl shadow-2xl border border-gray-700/50"
                         loading="lazy"
                       />
+                      {alt !== "画像" && <p className="text-center text-sm text-gray-500 mt-2">{alt}</p>}
                     </div>
                   );
                   continue;
                 }
                 
-                // 画像プレースホルダー（[画像0], [画像1]など）
+                // 画像プレースホルダー
                 const imageMatch = line.match(/\[画像(\d+)\]/);
                 if (imageMatch) {
                   const imageIndex = parseInt(imageMatch[1], 10);
                   if (images[imageIndex]) {
                     elements.push(
-                      <div key={lineIndex} className="my-6">
+                      <div key={lineIndex} className="my-8">
                         <img
                           src={images[imageIndex]}
                           alt={`画像 ${imageIndex + 1}`}
-                          className="w-full h-auto rounded-lg shadow-lg border border-gray-700"
+                          className="w-full h-auto rounded-xl shadow-2xl border border-gray-700/50"
                           loading="lazy"
                         />
                       </div>
@@ -277,7 +278,7 @@ export default async function PostPage({
                 if (line.startsWith("### ")) {
                   if (inList) {
                     elements.push(
-                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                         {listItems.map((item, idx) => (
                           <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                         ))}
@@ -293,9 +294,9 @@ export default async function PostPage({
                     <h3 
                       key={lineIndex} 
                       id={headingId}
-                      className="text-xl font-bold mt-6 mb-3 text-white scroll-mt-20"
+                      className="text-xl font-bold mt-8 mb-4 text-white scroll-mt-24 flex items-center gap-2"
                     >
-                      {headingText}
+                      <span className="text-blue-500 text-sm">#</span> {headingText}
                     </h3>
                   );
                   continue;
@@ -304,7 +305,7 @@ export default async function PostPage({
                 if (line.startsWith("## ")) {
                   if (inList) {
                     elements.push(
-                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                         {listItems.map((item, idx) => (
                           <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                         ))}
@@ -321,7 +322,7 @@ export default async function PostPage({
                     <h2 
                       key={lineIndex} 
                       id={headingId}
-                      className="text-2xl font-bold mt-8 mb-4 text-white scroll-mt-20"
+                      className="text-2xl font-bold mt-12 mb-6 text-white scroll-mt-24 pb-2 border-b border-gray-800"
                     >
                       {headingText}
                     </h2>
@@ -332,7 +333,7 @@ export default async function PostPage({
                 if (line.startsWith("# ")) {
                   if (inList) {
                     elements.push(
-                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                         {listItems.map((item, idx) => (
                           <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                         ))}
@@ -342,7 +343,7 @@ export default async function PostPage({
                     inList = false;
                   }
                   elements.push(
-                    <h1 key={lineIndex} className="text-3xl font-bold mt-8 mb-4 text-white">
+                    <h1 key={lineIndex} className="text-3xl font-bold mt-10 mb-6 text-white">
                       {line.replace(/^#\s+/, "")}
                     </h1>
                   );
@@ -361,7 +362,7 @@ export default async function PostPage({
                 // リスト終了
                 if (inList && line.trim() === "") {
                   elements.push(
-                    <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                    <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                       {listItems.map((item, idx) => (
                         <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                       ))}
@@ -376,7 +377,7 @@ export default async function PostPage({
                 if (line.trim() === "") {
                   if (inList) {
                     elements.push(
-                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                      <ul key={`list-${lineIndex}`} className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                         {listItems.map((item, idx) => (
                           <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                         ))}
@@ -391,10 +392,9 @@ export default async function PostPage({
                 
                 // 通常のテキスト
                 if (line.trim() && !inList) {
-                  // シンプルなMarkdown記法の処理
                   let processedText = line;
                   
-                  // 太字 **text** を処理
+                  // 太字 **text**
                   const boldRegex = /\*\*(.+?)\*\*/g;
                   const boldParts: (string | React.ReactNode)[] = [];
                   let lastIndex = 0;
@@ -404,14 +404,14 @@ export default async function PostPage({
                     if (match.index > lastIndex) {
                       boldParts.push(processedText.substring(lastIndex, match.index));
                     }
-                    boldParts.push(<strong key={`bold-${lineIndex}-${match.index}`} className="font-bold text-white">{match[1]}</strong>);
+                    boldParts.push(<strong key={`bold-${lineIndex}-${match.index}`} className="font-bold text-white bg-white/10 px-1 rounded">{match[1]}</strong>);
                     lastIndex = match.index + match[0].length;
                   }
                   if (lastIndex < processedText.length) {
                     boldParts.push(processedText.substring(lastIndex));
                   }
                   
-                  // インラインコード `code` を処理（太字の後）
+                  // インラインコード `code`
                   const finalParts: (string | React.ReactNode)[] = [];
                   boldParts.forEach((part, partIndex) => {
                     if (typeof part === "string") {
@@ -423,7 +423,7 @@ export default async function PostPage({
                         if (codeMatch.index > codeLastIndex) {
                           finalParts.push(part.substring(codeLastIndex, codeMatch.index));
                         }
-                        finalParts.push(<code key={`code-${lineIndex}-${partIndex}-${codeMatch.index}`} className="bg-gray-900 px-2 py-1 rounded text-slate-300 font-mono text-sm">{codeMatch[1]}</code>);
+                        finalParts.push(<code key={`code-${lineIndex}-${partIndex}-${codeMatch.index}`} className="bg-gray-800 px-1.5 py-0.5 rounded text-blue-300 font-mono text-sm border border-gray-700">{codeMatch[1]}</code>);
                         codeLastIndex = codeMatch.index + codeMatch[0].length;
                       }
                       if (codeLastIndex < part.length) {
@@ -434,18 +434,27 @@ export default async function PostPage({
                     }
                   });
                   
-                  elements.push(
-                    <p key={lineIndex} className="mb-4 text-gray-300">
-                      {finalParts.length > 0 ? finalParts : line}
-                    </p>
-                  );
+                  // 引用 > text
+                  if (line.startsWith("> ")) {
+                    elements.push(
+                      <blockquote key={lineIndex} className="border-l-4 border-blue-500 pl-4 italic text-gray-400 my-6 bg-gray-800/30 py-2 pr-2 rounded-r-lg">
+                        {finalParts.length > 0 ? finalParts : line.replace(/^>\s*/, "")}
+                      </blockquote>
+                    );
+                  } else {
+                    elements.push(
+                      <p key={lineIndex} className="mb-6 text-gray-300 leading-8">
+                        {finalParts.length > 0 ? finalParts : line}
+                      </p>
+                    );
+                  }
                 }
               }
               
               // 最後にリストが残っている場合
               if (inList && listItems.length > 0) {
                 elements.push(
-                  <ul key="list-final" className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                  <ul key="list-final" className="list-disc list-inside mb-6 space-y-2 text-gray-300 pl-4 marker:text-blue-500">
                     {listItems.map((item, idx) => (
                       <li key={idx}>{item.replace(/^[-*]\s*/, "")}</li>
                     ))}
@@ -460,7 +469,7 @@ export default async function PostPage({
       </div>
       
       {/* サイドバー（目次・PCのみ） */}
-      <aside className="hidden lg:block w-72 flex-shrink-0">
+      <aside className="hidden lg:block w-64 flex-shrink-0">
         <div className="sticky top-24">
           <TableOfContents content={post.content} />
         </div>
@@ -468,35 +477,39 @@ export default async function PostPage({
     </div>
 
         {/* いいねボタン */}
-        <div className="mt-8 pt-8 border-t border-gray-700">
-          <LikeButton slug={post.slug} title={post.title} />
+        <div className="mt-12 pt-12 border-t border-gray-800">
+          <div className="flex justify-center">
+             <LikeButton slug={post.slug} title={post.title} />
+          </div>
         </div>
 
         {/* SNSシェアボタン */}
-        <ShareButtons title={post.title} excerpt={post.excerpt} slug={post.slug} />
+        <div className="mt-8">
+           <ShareButtons title={post.title} excerpt={post.excerpt} slug={post.slug} />
+        </div>
 
         {/* 前後の記事ナビゲーション */}
         {(prev || next) && (
-          <div className="mt-8 pt-8 border-t border-gray-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mt-12 pt-8 border-t border-gray-800">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {prev && (
                 <Link
                   href={`/posts/${prev.slug}`}
-                  className="p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors border border-gray-600 hover:border-yellow-400"
+                  className="group p-6 bg-gray-800/50 hover:bg-gray-800 rounded-2xl transition-all border border-gray-700/50 hover:border-gray-600"
                   prefetch={true}
                 >
-                  <div className="text-sm text-gray-400 mb-2">← 前の記事</div>
-                  <div className="font-semibold text-white">{prev.title}</div>
+                  <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold group-hover:text-blue-400 transition-colors">Previous</div>
+                  <div className="font-bold text-white text-lg leading-tight group-hover:underline decoration-gray-600 underline-offset-4">{prev.title}</div>
                 </Link>
               )}
               {next && (
                 <Link
                   href={`/posts/${next.slug}`}
-                  className="p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors border border-gray-600 hover:border-yellow-400 md:text-right"
+                  className="group p-6 bg-gray-800/50 hover:bg-gray-800 rounded-2xl transition-all border border-gray-700/50 hover:border-gray-600 md:text-right"
                   prefetch={true}
                 >
-                  <div className="text-sm text-gray-400 mb-2">次の記事 →</div>
-                  <div className="font-semibold text-white">{next.title}</div>
+                  <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold group-hover:text-blue-400 transition-colors">Next</div>
+                  <div className="font-bold text-white text-lg leading-tight group-hover:underline decoration-gray-600 underline-offset-4">{next.title}</div>
                 </Link>
               )}
             </div>
@@ -505,27 +518,28 @@ export default async function PostPage({
 
         {/* 関連記事 */}
         {relatedPosts.length > 0 && (
-          <div className="mt-8 pt-8 border-t border-gray-700">
-            <h3 className="text-2xl font-title mb-6 text-white">関連記事</h3>
+          <div className="mt-16 pt-12 border-t border-gray-800">
+            <h3 className="text-2xl font-bold mb-8 text-white flex items-center gap-3">
+               <span className="text-blue-500">📑</span> 関連記事
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost, index) => (
                 <AnimatedCard key={relatedPost.slug} delay={index * 0.1}>
-                  <HoverCard className="bg-gradient-to-br from-gray-700/90 to-gray-800/90 rounded-xl shadow-xl overflow-hidden h-full border border-gray-600/50 backdrop-blur-sm hover:border-yellow-400/30 transition-all duration-300">
+                  <HoverCard className="h-full bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 hover:bg-gray-800 hover:border-gray-600 transition-all group overflow-hidden">
                     <Link
                       href={`/posts/${relatedPost.slug}`}
-                      className="block p-4 h-full"
+                      className="block p-6 h-full flex flex-col"
                       prefetch={true}
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 text-gray-900 px-2.5 py-1 rounded-full text-xs font-bold shadow-lg shadow-yellow-500/30">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-bold uppercase tracking-wider text-gray-500 group-hover:text-blue-400 transition-colors">
                           {relatedPost.category}
                         </span>
-                        <span className="text-gray-400 text-xs font-medium">{relatedPost.date}</span>
+                        <span className="text-gray-600 text-xs">{relatedPost.date}</span>
                       </div>
-                      <h4 className="font-title text-white mb-2 line-clamp-2 leading-tight">
+                      <h4 className="font-bold text-white mb-3 leading-snug group-hover:text-gray-200 transition-colors flex-grow">
                         {relatedPost.title}
                       </h4>
-                      <p className="text-gray-300 text-sm line-clamp-2 leading-relaxed">{relatedPost.excerpt}</p>
                     </Link>
                   </HoverCard>
                 </AnimatedCard>
@@ -534,21 +548,15 @@ export default async function PostPage({
           </div>
         )}
 
-        {/* コメント機能（Giscus） */}
-        <div className="mt-12 pt-8 border-t border-gray-700">
-          <h3 className="text-2xl font-title mb-6 text-white">コメント</h3>
-          <Giscus />
-        </div>
-
         {/* フッター */}
-        <footer className="mt-8 pt-6 border-t border-gray-700">
+        <footer className="mt-12 pt-8 border-t border-gray-800 text-center">
           <Link
             href="/"
-            className="text-slate-300 hover:text-slate-200 font-semibold inline-flex items-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
+            className="text-gray-400 hover:text-white font-medium inline-flex items-center gap-2 transition-colors px-6 py-3 rounded-full hover:bg-white/5"
             prefetch={true}
             aria-label="ホームページに戻る"
           >
-            ← ホームに戻る
+            ← Back to Home
           </Link>
         </footer>
         </div>
@@ -556,4 +564,3 @@ export default async function PostPage({
     </>
   );
 }
-

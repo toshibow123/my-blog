@@ -2,8 +2,8 @@
 {
   "title": "【節約】【筋トレ】北海道で節約しながら体鍛えるなら",
   "date": "2025年8月21日",
-  "category": "未分類",
-  "categorySlug": "uncategorized",
+  "category": "筋トレ",
+  "categorySlug": "fitness",
   "tags": [
     "節約",
     "筋トレ",

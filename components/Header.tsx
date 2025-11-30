@@ -8,96 +8,38 @@ import AnimatedText from "./AnimatedText";
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
   const navRef = useRef<HTMLElement>(null);
-  const starsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // タイトルの派手なアニメーション
+      // タイトルのフェードイン
       if (titleRef.current) {
-        // 最初に大きく表示して縮小
         gsap.fromTo(
           titleRef.current,
-          { opacity: 0, y: -50, scale: 1.5, rotation: -5 },
+          { opacity: 0, y: 20, scale: 0.95 },
           { 
             opacity: 1, 
             y: 0, 
             scale: 1, 
-            rotation: 0,
-            duration: 1.2, 
-            ease: "elastic.out(1, 0.5)" 
+            duration: 1.5, 
+            ease: "power3.out" 
           }
         );
-
-        // グラデーションアニメーション（無限ループ）
-        gsap.to(titleRef.current, {
-          backgroundPosition: "200% 0",
-          duration: 3,
-          repeat: -1,
-          ease: "none",
-        });
-
-        // ホバー時のアニメーション
-        titleRef.current.addEventListener("mouseenter", () => {
-          gsap.to(titleRef.current, {
-            scale: 1.05,
-            y: -5,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-
-        titleRef.current.addEventListener("mouseleave", () => {
-          gsap.to(titleRef.current, {
-            scale: 1,
-            y: 0,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
       }
 
-      // 説明文のアニメーション
-      gsap.fromTo(
-        descRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 0.9, y: 0, duration: 0.8, delay: 0.2, ease: "power2.out" }
-      );
-
-      // ナビゲーションボタンのアニメーション
+      // ナビゲーションのアニメーション
       if (navRef.current) {
-        const buttons = navRef.current.querySelectorAll("a");
         gsap.fromTo(
-          buttons,
-          { opacity: 0, y: 20, scale: 0.8 },
+          navRef.current,
+          { opacity: 0, y: -20 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.6,
-            delay: 0.4,
-            stagger: 0.1,
-            ease: "back.out(1.7)",
+            duration: 1,
+            delay: 0.5,
+            ease: "power3.out",
           }
         );
-      }
-
-      // 星のアニメーション
-      if (starsRef.current) {
-        const stars = starsRef.current.querySelectorAll("div");
-        stars.forEach((star, index) => {
-          gsap.to(star, {
-            opacity: 1,
-            scale: 1.5,
-            duration: 2 + Math.random() * 2,
-            repeat: -1,
-            yoyo: true,
-            delay: index * 0.2,
-            ease: "sine.inOut",
-          });
-          gsap.set(star, { opacity: 0.3, scale: 1 });
-        });
       }
     }, headerRef);
 
@@ -107,77 +49,48 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="relative bg-gradient-to-r from-blue-900 via-slate-900 to-blue-950 text-white overflow-hidden"
+      className="relative w-full h-[50vh] md:h-[60vh] flex flex-col items-center justify-center overflow-hidden bg-black"
       role="banner"
     >
-      {/* 控えめな背景装飾 */}
-      <div ref={starsRef} className="absolute inset-0 opacity-10">
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-10 left-10"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-20 left-32"></div>
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-32 left-64"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-16 left-96"></div>
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-24 right-32"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-40 right-64"></div>
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-12 right-96"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-28 right-20"></div>
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full top-48 left-48"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full top-36 right-48"></div>
-        <div className="absolute w-1 h-1 bg-slate-400 rounded-full bottom-20 left-24"></div>
-        <div className="absolute w-1 h-1 bg-slate-300 rounded-full bottom-32 right-24"></div>
+      {/* 背景の抽象的な光（Apple風） */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+         <div className="absolute top-[-20%] left-[20%] w-[60%] h-[60%] bg-blue-900/30 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }}></div>
+         <div className="absolute bottom-[-20%] right-[20%] w-[50%] h-[50%] bg-purple-900/20 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '1s' }}></div>
       </div>
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <div ref={titleRef} className="relative inline-block">
-            <Link
-              href="/"
-              className="block relative"
-              aria-label="トシぼうのブログ ホーム"
-            >
-              <AnimatedText
-                text="トシぼうのブログ"
-                as="h1"
-                className="text-4xl md:text-6xl font-title relative z-10 cursor-pointer"
-                style={{
-                  color: "#e2e8f0", // slate-200
-                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-                }}
-              />
-              {/* 光るエフェクト */}
-              <div 
-                className="absolute inset-0 blur-xl opacity-50"
-                style={{
-                  background: "linear-gradient(90deg, #fbbf24, #f59e0b, #eab308, #fbbf24)",
-                  backgroundSize: "200% 100%",
-                  zIndex: 0,
-                }}
-              />
-            </Link>
-          </div>
-          <p ref={descRef} className="text-lg md:text-xl opacity-90 max-w-3xl mx-auto px-4 leading-relaxed">
-            このブログは、移住をしたアラフォーで見習いエンジニアの成長日記です。<br className="hidden md:block" />
-            たまにAI副業・筋トレのことなど書きます。
-          </p>
-          <nav
-            ref={navRef}
-            aria-label="メインナビゲーション"
-            className="flex gap-4 mt-4"
-          >
-            <Link
-              href="/"
-              className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-blue-900"
-              prefetch={true}
-            >
-              記事一覧
-            </Link>
-            <Link
-              href="/about"
-              className="bg-slate-600 hover:bg-slate-500 text-white px-6 py-2 rounded-full font-semibold transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-blue-900"
-              prefetch={true}
-            >
-              プロフィール
-            </Link>
-          </nav>
+
+      {/* ナビゲーション（上部に固定風） */}
+      <nav
+        ref={navRef}
+        className="absolute top-6 z-50"
+        aria-label="メインナビゲーション"
+      >
+        <div className="glass-effect px-6 py-3 flex gap-6 items-center">
+             <Link href="/" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Home</Link>
+             <Link href="/about" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Profile</Link>
+             <Link href="/posts" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Articles</Link>
+             <Link href="/contact" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Contact</Link>
         </div>
+      </nav>
+
+      <div className="container mx-auto px-4 relative z-10 text-center">
+        <div ref={titleRef} className="space-y-6">
+           {/* メインコピー：タイポグラフィの暴力 */}
+           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight">
+             <span className="block text-white">Think Simple.</span>
+             <span className="apple-text block">Build Future.</span>
+           </h1>
+           
+           {/* サブコピー */}
+           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light tracking-wide">
+             見習いエンジニアの成長記録。<br className="hidden md:inline" /> 
+             コードと筋肉と、日々の気づきをここに。
+           </p>
+        </div>
+      </div>
+      
+      {/* スクロールダウンインジケーター */}
+      <div className="absolute bottom-8 animate-bounce text-gray-500">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
       </div>
     </header>
   );

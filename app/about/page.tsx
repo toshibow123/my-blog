@@ -1,86 +1,143 @@
 export const metadata = {
   title: "プロフィール | トシぼうのブログ",
-  description: "トシぼうのプロフィールページです。",
+  description: "トシぼうのプロフィールページです。経歴、スキル、学習ロードマップなどを紹介します。",
 };
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 text-white">プロフィール</h1>
-      
-      <div className="bg-gray-800 rounded-lg shadow-md p-8 border border-gray-700">
-        <div className="flex flex-col md:flex-row gap-6 mb-6">
-          <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-yellow-400 shadow-lg flex-shrink-0">
+    <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="bg-gray-900 rounded-3xl p-8 md:p-12 border border-gray-800 shadow-2xl">
+        
+        {/* ヘッダー部分 */}
+        <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
+          <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-gray-800 shadow-xl flex-shrink-0 relative group">
             <img
               src="/profile.png"
               alt="トシぼう"
-              className="object-cover w-full h-full"
-              width={128}
-              height={128}
+              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+              width={160}
+              height={160}
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2 text-white">トシぼう</h2>
-            <p className="text-gray-300 mb-4">
-              アラフォーで北海道に移住した「トシぼう」です！
-            </p>
-            <p className="text-gray-300 leading-relaxed">
-              節約しながらもマッチョをあきらめず、AIや資産形成も大好き。
-              このブログが少しでも参考になればうれしいです！
+          <div className="text-center md:text-left flex-1">
+            <h1 className="text-4xl font-bold mb-3 text-white tracking-tight">トシぼう</h1>
+            <p className="text-blue-400 font-medium mb-4 tracking-wide">Apprentice Engineer / Blogger / Investor</p>
+            <p className="text-gray-300 leading-relaxed max-w-2xl">
+              東京でのサラリーマン生活を経て、2024年に北海道へ移住したアラフォー見習いエンジニア。
+              <br />
+              「技術×節約×資産形成」をテーマに、自由で豊かなライフスタイルを模索中。
             </p>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-6 space-y-4">
-          <section>
-            <h3 className="text-xl font-semibold mb-2 text-white">経歴</h3>
-            <ul className="text-gray-300 space-y-2">
-              <li>• 生まれてから30代後半まで東京在住</li>
-              <li>• 2024年に北海道へ移住</li>
-              <li>• プログラミング、節約、筋トレが趣味</li>
-            </ul>
-          </section>
+        {/* メインコンテンツ */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          
+          {/* 左カラム：経歴・スキル */}
+          <div className="md:col-span-2 space-y-12">
+            <section>
+              <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-3 border-b border-gray-800 pb-2">
+                <span className="text-2xl">🚀</span>
+                Background
+              </h2>
+              <div className="space-y-6">
+                <div className="relative pl-8 border-l-2 border-gray-800">
+                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-600 border-4 border-gray-900" />
+                  <span className="text-sm text-gray-500 font-mono block mb-1">2024 - Present</span>
+                  <h3 className="text-lg font-bold text-white mb-2">北海道へ移住 & エンジニア転向</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    長年の夢だった北海道移住を実現。同時に未経験から開発現場（SES）に参画。
+                    Linux, Docker, Gitなどのモダンな開発フローをOJTで習得中。
+                  </p>
+                </div>
+                <div className="relative pl-8 border-l-2 border-gray-800">
+                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-700 border-4 border-gray-900" />
+                  <span className="text-sm text-gray-500 font-mono block mb-1">2010 - 2023</span>
+                  <h3 className="text-lg font-bold text-white mb-2">東京で営業・企画職</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    ITとは無縁の業界で営業職として従事。
+                    この期間に資産形成（インデックス投資）と筋トレに目覚める。
+                  </p>
+                </div>
+              </div>
+            </section>
 
-          <section>
-            <h3 className="text-xl font-semibold mb-2 text-white">興味のあること</h3>
-            <div className="flex flex-wrap gap-2">
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">プログラミング</span>
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">節約</span>
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">筋トレ</span>
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">AI</span>
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">資産形成</span>
-              <span className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm font-semibold border border-slate-600">北海道</span>
-            </div>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-3 border-b border-gray-800 pb-2">
+                <span className="text-2xl">💻</span>
+                Tech Stack
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50">
+                  <h3 className="font-bold text-white mb-3 text-sm uppercase tracking-wider">Languages & Frameworks</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-blue-900/30 text-blue-200 px-3 py-1 rounded-lg text-xs font-medium border border-blue-800/50">Python (Flask)</span>
+                    <span className="bg-yellow-900/30 text-yellow-200 px-3 py-1 rounded-lg text-xs font-medium border border-yellow-800/50">JavaScript</span>
+                    <span className="bg-cyan-900/30 text-cyan-200 px-3 py-1 rounded-lg text-xs font-medium border border-cyan-800/50">React / Next.js</span>
+                    <span className="bg-gray-700/30 text-gray-300 px-3 py-1 rounded-lg text-xs font-medium border border-gray-600/50">HTML / CSS</span>
+                  </div>
+                </div>
+                <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50">
+                  <h3 className="font-bold text-white mb-3 text-sm uppercase tracking-wider">Tools & Infrastructure</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-orange-900/30 text-orange-200 px-3 py-1 rounded-lg text-xs font-medium border border-orange-800/50">Git / GitHub</span>
+                    <span className="bg-blue-900/30 text-blue-200 px-3 py-1 rounded-lg text-xs font-medium border border-blue-800/50">Docker</span>
+                    <span className="bg-gray-700/30 text-gray-300 px-3 py-1 rounded-lg text-xs font-medium border border-gray-600/50">Linux (Basic)</span>
+                    <span className="bg-green-900/30 text-green-200 px-3 py-1 rounded-lg text-xs font-medium border border-green-800/50">Supabase</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
 
-          <section>
-            <h3 className="text-xl font-semibold mb-2 text-white">連絡先</h3>
-            <p className="text-gray-300 mb-2">
-              お問い合わせは
+          {/* 右カラム：その他の情報 */}
+          <div className="space-y-8">
+            <section>
+              <h2 className="text-xl font-bold mb-4 text-white">Interests</h2>
+              <div className="flex flex-wrap gap-2">
+                {["筋トレ", "節約", "資産形成", "AI", "北海道", "ポーカー", "サウナ"].map((tag) => (
+                  <span key={tag} className="bg-gray-800 text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium border border-gray-700">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold mb-4 text-white">Certifications</h2>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span>FP技能検定 2級</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span>簿記 2級</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600">⏳</span>
+                  <span>基本情報技術者 (学習中)</span>
+                </li>
+              </ul>
+            </section>
+
+            <div className="pt-6 border-t border-gray-800">
+              <h2 className="text-xl font-bold mb-4 text-white">Contact</h2>
+              <p className="text-gray-400 text-sm mb-4">
+                お仕事のご依頼やご質問は、お問い合わせページよりお願いいたします。
+              </p>
               <a 
                 href="/contact" 
-                className="text-slate-300 hover:text-slate-200 underline"
+                className="block w-full bg-white text-black text-center py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors"
               >
-                お問い合わせページ
+                お問い合わせ
               </a>
-              よりお願いいたします。
-            </p>
-            <p className="text-gray-400 text-sm">
-              ※メールでのお問い合わせには数日かかる場合がございます。
-            </p>
-          </section>
+            </div>
+          </div>
 
-          <section>
-            <h3 className="text-xl font-semibold mb-2 text-white">このブログについて</h3>
-            <p className="text-gray-300 leading-relaxed">
-              このブログは、アラフォーで北海道に移住した見習いエンジニア「トシぼう」の成長日記です。
-              プログラミング、節約、筋トレ、AI、資産形成など、日々の学びや体験を共有しています。
-              同じような境遇の方や、これから移住や転職を考えている方の参考になれば幸いです。
-            </p>
-          </section>
         </div>
       </div>
     </div>
   );
 }
-
