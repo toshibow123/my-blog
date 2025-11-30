@@ -45,19 +45,19 @@ export default function AboutPage() {
                 <div className="relative pl-8 border-l-2 border-gray-800">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-600 border-4 border-gray-900" />
                   <span className="text-sm text-gray-500 font-mono block mb-1">2024 - Present</span>
-                  <h3 className="text-lg font-bold text-white mb-2">北海道へ移住 & エンジニア転向</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">北海道へ移住 & 開発現場へ</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    長年の夢だった北海道移住を実現。同時に未経験から開発現場（SES）に参画。
+                    長年の夢だった北海道移住を実現。テスターとして1年経験を積んだ後、開発現場（SES）に参画。
                     Linux, Docker, Gitなどのモダンな開発フローをOJTで習得中。
                   </p>
                 </div>
                 <div className="relative pl-8 border-l-2 border-gray-800">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-700 border-4 border-gray-900" />
                   <span className="text-sm text-gray-500 font-mono block mb-1">2010 - 2023</span>
-                  <h3 className="text-lg font-bold text-white mb-2">東京で営業・企画職</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">アルバイト・派遣でうだつのあがらない日々</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    ITとは無縁の業界で営業職として従事。
-                    この期間に資産形成（インデックス投資）と筋トレに目覚める。
+                    東京でアルバイトや派遣の仕事を転々としながら、なかなかうだつが上がらない日々を送っていました。
+                    この期間に資産形成（インデックス投資）と筋トレに目覚め、エンジニアへの転向を決意。
                   </p>
                 </div>
               </div>
@@ -109,11 +109,11 @@ export default function AboutPage() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li className="flex items-start gap-2">
                   <span className="text-green-500">✓</span>
-                  <span>FP技能検定 2級</span>
+                  <span>ITパスポート</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500">✓</span>
-                  <span>簿記 2級</span>
+                  <span>Python基礎</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600">⏳</span>
