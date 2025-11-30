@@ -241,15 +241,17 @@ export default async function PostPage({
                   } else if (!url.startsWith("http://") && !url.startsWith("https://") && url.startsWith("/") && !url.startsWith("/images/")) {
                   }
                   
+                  // Hokkai4.jpg の場合は小さく表示
+                  const isSmallImage = url.includes("Hokkai4");
                   elements.push(
-                    <div key={lineIndex} className="my-8">
+                    <div key={lineIndex} className={`my-8 ${isSmallImage ? "flex justify-center" : ""}`}>
                       <img
                         src={url}
                         alt={alt}
-                        className="w-full h-auto rounded-xl shadow-2xl border border-gray-700/50"
+                        className={`${isSmallImage ? "w-48 h-auto" : "w-full h-auto"} rounded-xl shadow-2xl border border-gray-700/50`}
                         loading="lazy"
                       />
-                      {alt !== "画像" && <p className="text-center text-sm text-gray-500 mt-2">{alt}</p>}
+                      {alt !== "画像" && !isSmallImage && <p className="text-center text-sm text-gray-500 mt-2">{alt}</p>}
                     </div>
                   );
                   continue;
@@ -411,9 +413,42 @@ export default async function PostPage({
                     boldParts.push(processedText.substring(lastIndex));
                   }
                   
+                  // リンク [text](url)
+                  const linkParts: (string | React.ReactNode)[] = [];
+                  boldParts.forEach((part, partIndex) => {
+                    if (typeof part === "string") {
+                      const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+                      let linkLastIndex = 0;
+                      let linkMatch;
+                      
+                      while ((linkMatch = linkRegex.exec(part)) !== null) {
+                        if (linkMatch.index > linkLastIndex) {
+                          linkParts.push(part.substring(linkLastIndex, linkMatch.index));
+                        }
+                        linkParts.push(
+                          <a 
+                            key={`link-${lineIndex}-${partIndex}-${linkMatch.index}`} 
+                            href={linkMatch[2]} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+                          >
+                            {linkMatch[1]}
+                          </a>
+                        );
+                        linkLastIndex = linkMatch.index + linkMatch[0].length;
+                      }
+                      if (linkLastIndex < part.length) {
+                        linkParts.push(part.substring(linkLastIndex));
+                      }
+                    } else {
+                      linkParts.push(part);
+                    }
+                  });
+                  
                   // インラインコード `code`
                   const finalParts: (string | React.ReactNode)[] = [];
-                  boldParts.forEach((part, partIndex) => {
+                  linkParts.forEach((part, partIndex) => {
                     if (typeof part === "string") {
                       const codeRegex = /`(.+?)`/g;
                       let codeLastIndex = 0;
