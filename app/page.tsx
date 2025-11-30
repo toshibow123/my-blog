@@ -31,6 +31,13 @@ export default function Home() {
   // 新着記事（残り）
   const recentPosts = publishedPosts.slice(3);
 
+  // 画像パスの正規化
+  const getHeroImageUrl = (path: string | undefined) => {
+    if (!path) return undefined;
+    if (path.startsWith("http") || path.startsWith("/")) return path;
+    return `/images/${path}`;
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-min">
@@ -47,10 +54,28 @@ export default function Home() {
           {mainFeaturedPost ? (
             <AnimatedCard delay={0.1}>
               <Card3D className="h-full">
-                <HoverCard className="h-full glass-effect overflow-hidden relative group">
+                <HoverCard 
+                  className="h-full glass-effect overflow-hidden relative group bg-cover bg-center transition-all duration-700"
+                  style={
+                    // @ts-ignore: hero_image property might not be in type definition yet
+                    mainFeaturedPost.hero_image 
+                      // @ts-ignore
+                      ? { backgroundImage: `url("${getHeroImageUrl(mainFeaturedPost.hero_image)}")` }
+                      : {}
+                  }
+                >
                   <Link href={`/posts/${mainFeaturedPost.slug}`} className="block h-full p-8 flex flex-col justify-end relative z-10">
-                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+                     {/* オーバーレイ */}
+                     <div className={`absolute inset-0 transition-all duration-500 ${
+                       // @ts-ignore
+                       mainFeaturedPost.hero_image 
+                         ? "bg-black/40 group-hover:bg-black/30 group-hover:backdrop-blur-[2px]" // 画像あり
+                         : "bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" // 画像なし
+                     }`} />
                      
+                     {/* グラデーションオーバーレイ（文字の可読性用） */}
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90" />
+
                      <div className="relative z-20 transform transition-transform duration-500 group-hover:-translate-y-2">
                         <div className="flex items-center gap-3 mb-4">
                           <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-bold tracking-wide">
@@ -59,11 +84,11 @@ export default function Home() {
                           <span className="text-gray-300 text-xs font-medium tracking-wider uppercase">{mainFeaturedPost.category}</span>
                         </div>
                         
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight drop-shadow-lg">
                           {mainFeaturedPost.title}
                         </h2>
                         
-                        <p className="text-gray-300 mb-6 line-clamp-3 leading-relaxed text-lg font-light">
+                        <p className="text-gray-200 mb-6 line-clamp-3 leading-relaxed text-lg font-light drop-shadow-md">
                           {mainFeaturedPost.excerpt}
                         </p>
                         
@@ -126,18 +151,35 @@ export default function Home() {
         {subFeaturedPosts.map((post, index) => (
             <div key={post.slug} className="md:col-span-1 lg:col-span-2">
                 <AnimatedCard delay={0.4 + index * 0.1}>
-                  <HoverCard className="h-full glass-effect p-6 hover:bg-white/5 transition-colors group">
-                     <Link href={`/posts/${post.slug}`} className="flex flex-col h-full">
+                  <HoverCard 
+                    className="h-full glass-effect p-6 hover:bg-white/5 transition-colors group relative overflow-hidden bg-cover bg-center"
+                    style={
+                      // @ts-ignore
+                      post.hero_image 
+                        // @ts-ignore
+                        ? { backgroundImage: `url("${getHeroImageUrl(post.hero_image)}")` }
+                        : {}
+                    }
+                  >
+                     {/* オーバーレイ */}
+                     <div className={`absolute inset-0 transition-all duration-500 ${
+                       // @ts-ignore
+                       post.hero_image 
+                         ? "bg-black/60 group-hover:bg-black/50" 
+                         : ""
+                     }`} />
+                     
+                     <Link href={`/posts/${post.slug}`} className="flex flex-col h-full relative z-10">
                         <div className="flex items-center gap-2 mb-3">
-                            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-300 bg-black/30 px-2 py-1 rounded">
                                 {post.category}
                             </span>
-                            <span className="text-gray-500 text-xs">• {post.date}</span>
+                            <span className="text-gray-300 text-xs font-mono drop-shadow-md">• {post.date}</span>
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gray-200 transition-colors leading-tight">
+                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gray-200 transition-colors leading-tight drop-shadow-lg">
                             {post.title}
                         </h3>
-                        <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-grow leading-relaxed font-light">
+                        <p className="text-gray-300 text-sm line-clamp-2 mb-4 flex-grow leading-relaxed font-light drop-shadow-md">
                             {post.excerpt}
                         </p>
                         <div className="text-white text-sm font-semibold flex items-center gap-1 group-hover:underline underline-offset-4">

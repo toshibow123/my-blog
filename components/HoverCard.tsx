@@ -6,9 +6,10 @@ import { gsap } from "gsap";
 interface HoverCardProps {
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function HoverCard({ children, className = "" }: HoverCardProps) {
+export default function HoverCard({ children, className = "", style = {} }: HoverCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => {
@@ -37,6 +38,7 @@ export default function HoverCard({ children, className = "" }: HoverCardProps) 
     <div
       ref={cardRef}
       className={className}
+      style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
