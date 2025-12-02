@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deletePost } from "@/lib/posts-api";
-import type { Post } from "@/lib/supabase";
+import type { Post } from "@/lib/posts-markdown";
 
 interface AdminPostsClientProps {
   posts: Post[];
