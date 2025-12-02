@@ -15,6 +15,6 @@ export async function getPostBySlug() {
   return null;
 }
 
-export async function deletePost(slug: string) {
+export async function deletePost(id: string) {
   throw new Error("管理者ページは無効化されています。Markdownファイルを直接編集してください。");
 }

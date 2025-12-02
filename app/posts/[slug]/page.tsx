@@ -10,7 +10,7 @@ import TableOfContents from "@/components/TableOfContents";
 import ReadingProgress from "@/components/ReadingProgress";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 import LikeButton from "@/components/LikeButton";
-// import CommentsSection from "@/components/CommentsSection";
+import CommentsSection from "@/components/CommentsSection";
 
 export async function generateMetadata({
   params,
@@ -524,6 +524,9 @@ export default async function PostPage({
            <ShareButtons title={post.title} excerpt={post.excerpt} slug={post.slug} />
         </div>
 
+        {/* コメントセクション */}
+        <CommentsSection postSlug={post.slug} />
+
         {/* 前後の記事ナビゲーション */}
         {(prev || next) && (
           <div className="mt-12 pt-8 border-t border-gray-800">
@@ -583,9 +586,6 @@ export default async function PostPage({
             </div>
           </div>
         )}
-
-        {/* コメントセクション - 一時的に無効化 */}
-        {/* <CommentsSection postSlug={post.slug} /> */}
 
         {/* フッター */}
         <footer className="mt-12 pt-8 border-t border-gray-800 text-center">

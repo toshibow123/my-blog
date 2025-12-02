@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deletePost } from "@/lib/posts-api";
-import type { Post } from "@/lib/posts-markdown";
+import type { Post } from "@/lib/supabase";
 
 interface AdminPostsClientProps {
   posts: Post[];
@@ -12,20 +12,20 @@ interface AdminPostsClientProps {
 
 export default function AdminPostsClient({ posts }: AdminPostsClientProps) {
   const router = useRouter();
-  const [deletingSlug, setDeletingSlug] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleDelete = async (post: Post) => {
     if (confirm(`「${post.title}」を削除しますか？\nこの操作は取り消せません。`)) {
-      setDeletingSlug(post.slug);
+      setDeletingId(post.id);
       try {
-        await deletePost(post.slug);
+        await deletePost(post.id);
         alert("記事を削除しました！");
         router.refresh();
       } catch (error) {
         console.error("Error deleting post:", error);
         alert(`エラーが発生しました: ${error instanceof Error ? error.message : "Unknown error"}`);
       } finally {
-        setDeletingSlug(null);
+        setDeletingId(null);
       }
     }
   };
@@ -60,7 +60,7 @@ export default function AdminPostsClient({ posts }: AdminPostsClientProps) {
           </thead>
           <tbody className="divide-y divide-gray-700">
             {posts.map((post) => (
-              <tr key={post.slug} className="hover:bg-gray-700/30 transition-colors">
+              <tr key={post.id} className="hover:bg-gray-700/30 transition-colors">
                 <td className="px-6 py-4">
                   <Link
                     href={`/posts/${post.slug}`}
@@ -103,10 +103,10 @@ export default function AdminPostsClient({ posts }: AdminPostsClientProps) {
                     </Link>
                     <button
                       onClick={() => handleDelete(post)}
-                      disabled={deletingSlug === post.slug}
+                      disabled={deletingId === post.id}
                       className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {deletingSlug === post.slug ? "削除中..." : "削除"}
+                      {deletingId === post.id ? "削除中..." : "削除"}
                     </button>
                   </div>
                 </td>

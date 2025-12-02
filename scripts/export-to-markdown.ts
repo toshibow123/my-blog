@@ -13,23 +13,7 @@ import * as fs from "fs";
 dotenv.config({ path: path.join(process.cwd(), ".env.local") });
 
 import { createClient } from "@supabase/supabase-js";
-
-// SupabaseのPost型定義
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  excerpt?: string;
-  slug: string;
-  date?: string;
-  category?: string;
-  category_slug?: string;
-  tags?: string[];
-  hero_image?: string;
-  images?: string[];
-  published?: boolean;
-  created_at?: string;
-}
+import type { Post } from "../lib/supabase";
 
 // Supabaseクライアントを直接作成（環境変数が読み込まれた後）
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
