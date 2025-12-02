@@ -1,32 +1,24 @@
-// Supabase連携は無効化されました
-// このファイルは型定義のみを提供します（他のファイルで使用されている可能性があるため）
+import { createClient } from '@supabase/supabase-js';
 
-// 型定義（Markdownベースの運用でも使用）
-export interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  date: string;
-  category: string;
-  category_slug: string;
-  tags: string[];
-  excerpt: string;
-  content: string;
-  hero_image?: string | null;
-  images?: string[] | null;
-  published?: boolean | null;
-  view_count?: number | null;
-  created_at: string;
-  updated_at: string;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('Supabase環境変数が設定されていません。コメント機能は動作しません。');
 }
 
-export interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  created_at: string;
-}
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Supabaseクライアントは使用しません（Markdownベースの運用に移行）
-// エクスポートスクリプト（scripts/export-to-markdown.ts）で使用する場合は、
-// そのスクリプト内で直接クライアントを作成しています
+// サーバーサイド用（Service Role Keyが必要な場合）
+export const createServerClient = () => {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceRoleKey) {
+    return supabase; // フォールバック
+  }
+  return createClient(supabaseUrl, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+};

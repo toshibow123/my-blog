@@ -46,11 +46,11 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com", // GSAP、Next.js、Google Analyticsのため
-              "style-src 'self' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://cdnjs.cloudflare.com", // GSAP、Next.js、Google Analytics、Prism.jsのため
+              "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com", // Prism.jsのCSSのため
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com", // Google Analyticsのため
+              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://*.supabase.co", // Google Analytics、Supabaseのため
               "frame-ancestors 'self'",
             ].join("; "),
           },
