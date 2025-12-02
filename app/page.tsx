@@ -57,9 +57,7 @@ export default function Home() {
                 <HoverCard 
                   className="h-full glass-effect overflow-hidden relative group bg-cover bg-center transition-all duration-700"
                   style={
-                    // @ts-ignore: hero_image property might not be in type definition yet
-                    mainFeaturedPost.hero_image 
-                      // @ts-ignore
+                    mainFeaturedPost.hero_image && getHeroImageUrl(mainFeaturedPost.hero_image)
                       ? { backgroundImage: `url("${getHeroImageUrl(mainFeaturedPost.hero_image)}")` }
                       : {}
                   }
@@ -67,7 +65,6 @@ export default function Home() {
                   <Link href={`/posts/${mainFeaturedPost.slug}`} className="block h-full p-8 flex flex-col justify-end relative z-10">
                      {/* オーバーレイ */}
                      <div className={`absolute inset-0 transition-all duration-500 ${
-                       // @ts-ignore
                        mainFeaturedPost.hero_image 
                          ? "bg-black/40 group-hover:bg-black/30 group-hover:backdrop-blur-[2px]" // 画像あり
                          : "bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" // 画像なし
@@ -154,16 +151,13 @@ export default function Home() {
                   <HoverCard 
                     className="h-full glass-effect p-6 hover:bg-white/5 transition-colors group relative overflow-hidden bg-cover bg-center"
                     style={
-                      // @ts-ignore
-                      post.hero_image 
-                        // @ts-ignore
+                      post.hero_image && getHeroImageUrl(post.hero_image)
                         ? { backgroundImage: `url("${getHeroImageUrl(post.hero_image)}")` }
                         : {}
                     }
                   >
                      {/* オーバーレイ */}
                      <div className={`absolute inset-0 transition-all duration-500 ${
-                       // @ts-ignore
                        post.hero_image 
                          ? "bg-black/60 group-hover:bg-black/50" 
                          : ""
