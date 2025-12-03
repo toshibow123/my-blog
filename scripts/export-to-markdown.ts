@@ -13,7 +13,7 @@ import * as fs from "fs";
 dotenv.config({ path: path.join(process.cwd(), ".env.local") });
 
 import { createClient } from "@supabase/supabase-js";
-import type { Post } from "../lib/supabase";
+import type { Post } from "../lib/posts-markdown";
 
 // Supabaseクライアントを直接作成（環境変数が読み込まれた後）
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
