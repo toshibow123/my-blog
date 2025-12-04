@@ -11,6 +11,7 @@ import ReadingProgress from "@/components/ReadingProgress";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
 import LikeButton from "@/components/LikeButton";
 import CommentsSection from "@/components/CommentsSection";
+import AuthorProfile from "@/components/AuthorProfile";
 
 export async function generateMetadata({
   params,
@@ -164,13 +165,13 @@ export default async function PostPage({
           </div>
         )}
 
+        {/* 目次（全デバイスで表示） */}
+        <div className="mb-8">
+          <TableOfContents content={post.content} />
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-12 relative">
           <div className="flex-1 min-w-0">
-            {/* 目次（モバイルのみ） */}
-            <div className="lg:hidden mb-8">
-              <TableOfContents content={post.content} />
-            </div>
-
             {/* コンテンツ */}
             <div className="prose prose-lg prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:text-gray-300 prose-p:leading-8 prose-a:text-blue-400 prose-img:rounded-xl prose-pre:bg-[#1d1f21]" itemProp="articleBody">
           <div className="text-gray-300 leading-relaxed">
@@ -504,12 +505,6 @@ export default async function PostPage({
         </div>
       </div>
       
-      {/* サイドバー（目次・PCのみ） */}
-      <aside className="hidden lg:block w-64 flex-shrink-0">
-        <div className="sticky top-24">
-          <TableOfContents content={post.content} />
-        </div>
-      </aside>
     </div>
 
         {/* いいねボタン */}
@@ -526,6 +521,9 @@ export default async function PostPage({
 
         {/* コメントセクション */}
         <CommentsSection postSlug={post.slug} />
+
+        {/* 著者プロフィール */}
+        <AuthorProfile />
 
         {/* 前後の記事ナビゲーション */}
         {(prev || next) && (

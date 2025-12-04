@@ -15,6 +15,7 @@ interface TableOfContentsProps {
 export default function TableOfContents({ content }: TableOfContentsProps) {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>("");
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     // 見出しを抽出（H2とH3のみ）
@@ -88,29 +89,48 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
-      <h2 className="text-base font-bold text-white mb-3">目次</h2>
-      <nav>
-        <ol className="space-y-1.5">
-          {headings.map((heading) => (
-            <li
-              key={heading.id}
-              className={`
-                ${heading.level === 3 ? "ml-3" : ""}
-                ${activeId === heading.id ? "text-slate-300" : "text-gray-300"}
-                hover:text-slate-300 transition-colors cursor-pointer
-              `}
-            >
-              <button
-                onClick={() => scrollToHeading(heading.id)}
-                className="text-left text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-slate-400 rounded"
+    <div className="bg-white/5 rounded-lg border border-gray-700/50 mb-8 overflow-hidden">
+      <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+        <h2 className="text-base font-bold text-white flex items-center gap-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          目次
+        </h2>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-gray-400 hover:text-white text-sm px-3 py-1 rounded-full hover:bg-white/5 transition-colors"
+          aria-label={isExpanded ? "折りたたむ" : "展開する"}
+        >
+          {isExpanded ? "折りたたむ" : "展開する"}
+        </button>
+      </div>
+      {isExpanded && (
+        <nav className="p-4">
+          <ol className="space-y-2">
+            {headings.map((heading, index) => (
+              <li
+                key={heading.id}
+                className={`
+                  ${heading.level === 3 ? "ml-6" : ""}
+                  ${activeId === heading.id ? "text-blue-400" : "text-gray-300"}
+                  hover:text-blue-400 transition-colors cursor-pointer
+                `}
               >
-                {heading.text}
-              </button>
-            </li>
-          ))}
-        </ol>
-      </nav>
+                <button
+                  onClick={() => scrollToHeading(heading.id)}
+                  className="text-left text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded flex items-start gap-2"
+                >
+                  <span className="text-gray-500 font-mono text-xs mt-0.5 flex-shrink-0">
+                    {index + 1}
+                  </span>
+                  <span className="flex-1">{heading.text}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
     </div>
   );
 }
