@@ -18,10 +18,10 @@ export default function ContactPage() {
           <p className="text-white font-semibold mb-2">お問い合わせ方法</p>
           <p className="text-gray-300">
             メールアドレス：<a 
-              href="mailto:info@toshiboh.com" 
+              href="mailto:toshichanrex@gmail.com" 
               className="text-slate-300 hover:text-slate-200 underline font-semibold"
             >
-              info@toshiboh.com
+              toshichanrex@gmail.com
             </a>
           </p>
           <p className="text-gray-400 text-sm mt-2">
