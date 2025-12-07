@@ -68,6 +68,7 @@ export default function Header() {
              <Link href="/" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Home</Link>
              <Link href="/about" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Profile</Link>
              <Link href="/posts" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Articles</Link>
+             <Link href="/learning" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">今日の学び</Link>
              <Link href="/contact" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Contact</Link>
         </div>
       </nav>

@@ -58,6 +58,7 @@ export default function Footer() {
             <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-wider">Information</h4>
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link href="/about" className="hover:text-white transition-colors">Profile</Link></li>
+              <li><Link href="/learning" className="hover:text-white transition-colors">今日の学び</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
               <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>

@@ -16,6 +16,8 @@ export interface PostFrontMatter {
   images?: string[];
   published?: boolean;
   updated?: string; // 最終更新日（オプション）
+  topics?: string[]; // 学んだトピック（ワード単位）
+  topicExplanations?: Record<string, string>; // トピックごとの解説 { "chmod +x": "ファイルに実行権限を付与するLinuxコマンド..." }
 }
 
 export interface Post extends PostFrontMatter {
@@ -191,5 +193,12 @@ export function getAllCategories(): Array<{ name: string; slug: string; count: n
       return { name, slug, count };
     })
     .sort((a, b) => a.name.localeCompare(b.name, "ja"));
+}
+
+// 「今日の学び」タグがついた記事を取得
+export function getTodayLearningPosts(): Post[] {
+  return getPublishedPosts().filter((post) =>
+    post.tags.some((tag) => tag === "今日の学び")
+  );
 }
 
