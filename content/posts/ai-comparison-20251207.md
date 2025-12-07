@@ -14,7 +14,12 @@
   ],
   "excerpt": "生成AIをバリバリ使っている筆者が、実際に使っているChatGPT、Claude、Geminiの3つのAIの特徴と使い分け方を紹介します。",
   "slug": "ai-comparison-20251207",
-  "published": true
+  "published": true,
+  "images": [
+    "gpt.png",
+    "claude.png",
+    "gemini.png"
+  ]
 }
 ---
 
@@ -42,6 +47,8 @@
 
 ### 1. ChatGPT（OpenAI）
 
+![ChatGPT](/images/gpt.png)
+
 **特徴：**
 - **汎用性が高い**：何でも聞ける、何でも答えてくれる
 - **コード生成が得意**：プログラミングの質問に強い
@@ -61,6 +68,8 @@
 
 ### 2. Claude（Anthropic）
 
+![Claude](/images/claude.png)
+
 **特徴：**
 - **文章作成が得意**：長文の執筆や要約が上手
 - **論理的思考が強い**：複雑な問題の分析が得意
@@ -79,6 +88,8 @@
 ---
 
 ### 3. Gemini（Google）
+
+![Gemini](/images/gemini.png)
 
 **特徴：**
 - **マルチモーダルが強い**：画像、動画、音声も理解できる
